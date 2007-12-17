@@ -21,7 +21,6 @@ BuildRequires:	perl wget apache-base
 %if %{build_sendmail}
 BuildRequires:	sendmail-devel
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Distributed Checksum Clearinghouse or DCC is a cooperative,
