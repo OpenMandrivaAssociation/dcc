@@ -84,7 +84,7 @@ Development headers and libraries for %{name}
 
 # fix defaults
 find . -type f | xargs perl -pi -e "s|/usr/local|%{_prefix}|g"
-find . -type f | xargs perl -pi -e "s|/var/dcc|%{_localstatedir}/dcc|g"
+find . -type f | xargs perl -pi -e "s|/var/dcc|%{_localstatedir}/lib/dcc|g"
 
 # lib64 fixes
 perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
@@ -100,7 +100,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
     --disable-dccm \
 %endif
     --with-installroot=%{buildroot} \
-    --homedir=%{_localstatedir}/dcc \
+    --homedir=%{_localstatedir}/lib/dcc \
     --bindir=%{_bindir} \
     --mandir=%{_mandir} \
     --with-DCC-MD5 \
@@ -110,7 +110,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
     --with-rundir=/var/run/dcc \
     --with-db-memory=32 
 
-#    --prefix=%{_localstatedir}/dcc \
+#    --prefix=%{_localstatedir}/lib/dcc \
 			  
 perl -p -i -e "s:\".*\":\"%{_sbindir}\": if m/define\s+DCC_LIBEXECDIR/ ;" include/dcc_config.h
 
@@ -129,7 +129,7 @@ install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/cron.daily
 install -d %{buildroot}%{_sysconfdir}/httpd/webapps.d
 install -d %{buildroot}/var/run/dcc
-install -d %{buildroot}%{_localstatedir}/dcc/{log,userdirs/{local,esmtp,cyrus,procmail}}
+install -d %{buildroot}%{_localstatedir}/lib/dcc/{log,userdirs/{local,esmtp,cyrus,procmail}}
 install -d %{buildroot}%{_mandir}/man8
 install -d %{buildroot}%{_libdir}
 install -d %{buildroot}%{_includedir}/dcc
@@ -145,7 +145,7 @@ chmod 755 %{buildroot}%{_sbindir}/* %{buildroot}%{_bindir}/*
 
 install -m0755 misc/cron-dccd %{buildroot}%{_sysconfdir}/cron.daily/dccd
 install -m0755 misc/rcDCC %{buildroot}%{_initrddir}/dccd
-install -m0600 homedir/flod %{buildroot}%{_localstatedir}/dcc/flod
+install -m0600 homedir/flod %{buildroot}%{_localstatedir}/lib/dcc/flod
 
 install -m0755 dccifd/dccif-test/dccif-test %{buildroot}%{_sbindir}/
 install -m0755 dccifd/dccif-test/dccif-test.pl %{buildroot}%{_sbindir}/
@@ -155,13 +155,13 @@ install -m0755 dccifd/dccif.pl %{buildroot}%{_sbindir}/
 install -d %{buildroot}%{_datadir}/sendmail-cf/feature
 install -m0644 misc/dcc.m4 %{buildroot}%{_datadir}/sendmail-cf/feature/
 install -m0644 misc/dccdnsbl.m4 %{buildroot}%{_datadir}/sendmail-cf/feature/
-#install -m0644 misc/dict-attack-aliases %{buildroot}%{_localstatedir}/dcc/
+#install -m0644 misc/dict-attack-aliases %{buildroot}%{_localstatedir}/lib/dcc/
 #install -m0755 misc/filter-dict-attack %{buildroot}%{_sbindir}/
 %endif
 
 # Set some initial logging, but no rejections
 perl -p -i -e "s/BRAND=\$/BRAND=%{version}-%{release}/ ; s/DCCM_LOG_AT=\$/\$&10/ ; " \
-	%{buildroot}%{_localstatedir}/dcc/dcc_conf
+	%{buildroot}%{_localstatedir}/lib/dcc/dcc_conf
 
 # install the apache2 config
 cat > %{buildroot}%{_sysconfdir}/httpd/webapps.d/dcc.conf <<EOF
@@ -180,13 +180,13 @@ ScriptAlias /dcc-bin/ /var/www/dcc-bin/
 
 	AuthType Basic
 	AuthName "DCC user"
-	AuthUserFile %{_localstatedir}/dcc/userdirs/webusers
+	AuthUserFile %{_localstatedir}/lib/dcc/userdirs/webusers
 	require valid-user
 
     </Directory>
 EOF
 
-echo "# put users in here" > %{buildroot}%{_localstatedir}/dcc/userdirs/webusers
+echo "# put users in here" > %{buildroot}%{_localstatedir}/lib/dcc/userdirs/webusers
 
 # prepare for docs inclusion
 cp misc/README README.misc
@@ -217,14 +217,14 @@ rm -f %{buildroot}%{_sbindir}/uninstalldcc
 install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 
 %pre
-%_pre_useradd dcc %{_localstatedir}/dcc /bin/sh
+%_pre_useradd dcc %{_localstatedir}/lib/dcc /bin/sh
 
 %post
 %_post_service dccd
 # this causes a hang if not connected to the internet
 # deactivate it for now... user should read man pages
 # instead...
-#%{_bindir}/cdcc info > %{_localstatedir}/dcc/map.txt || :
+#%{_bindir}/cdcc info > %{_localstatedir}/lib/dcc/map.txt || :
 
 %preun
 %_preun_service dccd
@@ -244,18 +244,18 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) %{_sysconfdir}/cron.daily/dccd
 %attr(0755,root,root) %{_initrddir}/dccd
 
-%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/dcc/ids
-%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/dcc/map
-%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/dcc/map.txt
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/dcc_conf
-#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/dcc_db
-#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/dcc_db.hash
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/flod
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/whiteclnt
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/whitecommon
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/whitelist
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/grey_flod
-%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/grey_whitelist
+%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/lib/dcc/ids
+%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/lib/dcc/map
+%config(noreplace) %attr(0600,dcc,dcc) %{_localstatedir}/lib/dcc/map.txt
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/dcc_conf
+#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/dcc_db
+#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/dcc_db.hash
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/flod
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/whiteclnt
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/whitecommon
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/whitelist
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/grey_flod
+%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/grey_whitelist
 
 %attr(4755,root,root) %{_bindir}/cdcc
 %attr(4755,root,root) %{_bindir}/dccproc
@@ -289,13 +289,13 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) %{_sbindir}/dccif.pl
 %attr(0755,root,root) %{_sbindir}/fetch-testmsg-whitelist
 
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/log
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/userdirs
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/userdirs/local
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/userdirs/cyrus
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/userdirs/procmail
-%attr(0755,dcc,dcc) %dir %{_localstatedir}/dcc/userdirs/esmtp
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/log
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/userdirs
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/userdirs/local
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/userdirs/cyrus
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/userdirs/procmail
+%attr(0755,dcc,dcc) %dir %{_localstatedir}/lib/dcc/userdirs/esmtp
 %attr(0755,dcc,dcc) %dir /var/run/dcc
 
 %attr(0644,root,root) %{_mandir}/man8/cdcc.8*
@@ -317,7 +317,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %files sendmail
 %defattr(-,root,root)
 %doc dccm.html
-#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/dcc/dict-attack-aliases
+#%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/dict-attack-aliases
 %attr(0755,root,root) %{_sbindir}/dccm
 #%attr(0755,root,root) %{_sbindir}/filter-dict-attack
 %attr(0755,root,root) %{_sbindir}/hackmc
@@ -333,7 +333,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %defattr(-,root,root)
 %doc README.cgi-bin
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/webapps.d/dcc.conf
-%attr(0644,root,root) %config(noreplace) %{_localstatedir}/dcc/userdirs/webusers
+%attr(0644,root,root) %config(noreplace) %{_localstatedir}/lib/dcc/userdirs/webusers
 %attr(0755,root,root) /var/www/dcc-bin/chgpasswd
 %attr(0755,root,root) /var/www/dcc-bin/common
 %attr(0755,root,root) /var/www/dcc-bin/edit-whiteclnt
