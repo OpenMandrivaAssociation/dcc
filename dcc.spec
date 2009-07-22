@@ -151,7 +151,7 @@ install -m0755 misc/rcDCC %{buildroot}%{_initrddir}/dccd
 install -m0600 homedir/flod %{buildroot}%{_localstatedir}/lib/dcc/flod
 
 install -m0755 dccifd/dccif-test/dccif-test %{buildroot}%{_sbindir}/
-install -m0755 dccifd/dccif-test/dccif-test.pl %{buildroot}%{_sbindir}/
+#install -m0755 dccifd/dccif-test/dccif-test.pl %{buildroot}%{_sbindir}/
 install -m0755 dccifd/dccif.pl %{buildroot}%{_sbindir}/
 
 %if %{build_sendmail}
@@ -288,7 +288,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 
 # extras
 %attr(0755,root,root) %{_sbindir}/dccif-test
-%attr(0755,root,root) %{_sbindir}/dccif-test.pl
+#%attr(0755,root,root) %{_sbindir}/dccif-test.pl
 %attr(0755,root,root) %{_sbindir}/dccif.pl
 %attr(0755,root,root) %{_sbindir}/fetch-testmsg-whitelist
 
