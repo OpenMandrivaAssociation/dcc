@@ -245,7 +245,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 
 %files
 %defattr(-,root,root)
-%doc CHANGES FAQ.txt LICENSE README.misc README.homedir
+%doc CHANGES  LICENSE README.misc README.homedir
 %doc FAQ.html INSTALL.html cdcc.html dbclean.html dblist.html
 %doc dcc.html dccd.html dccifd.html dccproc.html dccsight.html
 
