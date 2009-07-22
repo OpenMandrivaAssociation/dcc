@@ -201,12 +201,17 @@ chmod 644 CHANGES LICENSE README*  *.html
 
 # install devel files
 install -m0644 dccd/*.h %{buildroot}%{_includedir}/dcc/
-install -m0644 dcclib/*.h %{buildroot}%{_includedir}/dcc/
 install -m0644 include/*.h %{buildroot}%{_includedir}/dcc/
 install -m0644 srvrlib/*.h %{buildroot}%{_includedir}/dcc/
+install -m0644 thrlib/*.h %{buildroot}%{_includedir}/dcc/
+install -m0644 clntlib/*.h %{buildroot}%{_includedir}/dcc/
+
 install -m0755 dcclib/libdcc.a %{buildroot}%{_libdir}/
 install -m0755 srvrlib/libsrvr.a %{buildroot}%{_libdir}/
 install -m0755 thrlib/libthr.a %{buildroot}%{_libdir}/
+install -m0755 clntlib/libclnt.a %{buildroot}%{_libdir}/
+
+
 
 # house cleaning
 rm -f %{buildroot}/var/www/dcc-bin/README
