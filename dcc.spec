@@ -105,7 +105,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
     --mandir=%{_mandir} \
     --with-DCC-MD5 \
     --disable-sys-inst \
-#    --with-uid=dcc \
+    --with-uid=dcc \
     --with-cgibin=/var/www/dcc-bin \
     --with-rundir=/var/run/dcc \
     --with-db-memory=32 
@@ -136,10 +136,11 @@ install -d %{buildroot}%{_includedir}/dcc
 
 export INST_UID="`id -u`"
 export INST_GID="`id -g`"
-
+alias chown=echo
 make MANOWN=$INST_UID MANGRP=$INST_GID DCC_SUID=$INST_UID DCC_OWN=$INST_UID \
     DCC_GRP=$INST_GID BINOWN=$INST_UID GRP=$INST_GID INSTALL="install -c" \
     install
+unalias chown
 
 chmod 755 %{buildroot}%{_sbindir}/* %{buildroot}%{_bindir}/* 
 
