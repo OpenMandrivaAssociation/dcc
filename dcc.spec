@@ -105,7 +105,7 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
     --mandir=%{_mandir} \
     --with-DCC-MD5 \
     --disable-sys-inst \
-    --with-uid=dcc \
+#    --with-uid=dcc \
     --with-cgibin=/var/www/dcc-bin \
     --with-rundir=/var/run/dcc \
     --with-db-memory=32 
