@@ -12,6 +12,7 @@ Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
 Source0:	http://www.rhyolite.com/dcc/source/dcc.tar.Z
 Patch0:		dcc-dccd-initscript-113.diff
+Patch1:		dcc-make-dcc_conf-nochwon.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
 Requires(pre): rpm-helper
@@ -81,6 +82,7 @@ Development headers and libraries for %{name}
 
 %setup -q -n %{name}-%{version}
 %patch0 -p0 -b .initscript
+%patch1 -p0 -b .nochown
 
 # fix defaults
 find . -type f | xargs perl -pi -e "s|/usr/local|%{_prefix}|g"
