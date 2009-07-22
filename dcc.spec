@@ -285,6 +285,13 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) %{_sbindir}/list-clients
 %attr(0755,root,root) %{_sbindir}/dns-helper
 
+%attr(0755,root,root) %{_sbindir}/check_ip_range
+%attr(0755,root,root) %{_sbindir}/dcc-nagios
+%attr(0755,root,root) %{_sbindir}/dump-clients
+%attr(0755,root,root) %{_sbindir}/fetchids
+%attr(0755,root,root) %{_sbindir}/fix-map
+
+
 # rrdtool stuff
 %attr(0755,root,root) %{_sbindir}/dcc-stats-collect
 %attr(0755,root,root) %{_sbindir}/dcc-stats-graph
@@ -351,6 +358,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) /var/www/dcc-bin/webuser-notify
 %attr(0755,root,root) /var/www/dcc-bin/footer
 %attr(0755,root,root) /var/www/dcc-bin/header
+%attr(0755,root,root) /var/www/dcc-bin/common.pm
 
 %files devel
 %defattr(-,root,root)
