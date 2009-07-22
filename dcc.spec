@@ -197,7 +197,7 @@ cp homedir/README README.homedir
 cp cgi-bin/README README.cgi-bin
 
 # fix strange attribs
-chmod 644 CHANGES LICENSE README* *.txt *.html
+chmod 644 CHANGES LICENSE README*  *.html
 
 # install devel files
 install -m0644 dccd/*.h %{buildroot}%{_includedir}/dcc/
