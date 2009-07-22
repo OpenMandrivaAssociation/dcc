@@ -11,7 +11,7 @@ License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
 Source0:	http://www.rhyolite.com/dcc/source/dcc.tar.Z
-Patch0:		dcc-dccd-initscript.diff
+Patch0:		dcc-dccd-initscript-113.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
 Requires(pre): rpm-helper
