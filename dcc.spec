@@ -5,13 +5,13 @@
 
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
-Version:	1.3.113
+Version:	1.3.120
 Release:	%mkrel 1
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
-Source0:	http://www.rhyolite.com/dcc/source/dcc.tar.Z
-Patch0:		dcc-dccd-initscript-113.diff
+Source0:	http://www.rhyolite.com/src/dcc/old/dcc-%{version}.tar.Z
+Patch0:		dcc-dccd-initscript-120.diff
 Patch1:		dcc-make-dcc_conf-nochwon.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
@@ -129,7 +129,7 @@ export DONT_GPRINTIFY=1
 
 install -d %{buildroot}%{_initrddir}
 install -d %{buildroot}%{_sysconfdir}/cron.daily
-install -d %{buildroot}%{_sysconfdir}/httpd/webapps.d
+install -d %{buildroot}%{_webappconfdir}
 install -d %{buildroot}/var/run/dcc
 install -d %{buildroot}%{_localstatedir}/lib/dcc/{log,userdirs/{local,esmtp,cyrus,procmail}}
 install -d %{buildroot}%{_mandir}/man8
@@ -167,7 +167,7 @@ perl -p -i -e "s/BRAND=\$/BRAND=%{version}-%{release}/ ; s/DCCM_LOG_AT=\$/\$&10/
 	%{buildroot}%{_localstatedir}/lib/dcc/dcc_conf
 
 # install the apache2 config
-cat > %{buildroot}%{_sysconfdir}/httpd/webapps.d/dcc.conf <<EOF
+cat > dcc.conf <<EOF
 
 ScriptAlias /dcc-bin/ /var/www/dcc-bin/
 
@@ -189,6 +189,7 @@ ScriptAlias /dcc-bin/ /var/www/dcc-bin/
     </Directory>
 EOF
 
+install -m 0755 dcc.conf %{buildroot}%{_webappconfdir}/dcc.conf 
 echo "# put users in here" > %{buildroot}%{_localstatedir}/lib/dcc/userdirs/webusers
 
 # prepare for docs inclusion
@@ -347,7 +348,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %files cgi
 %defattr(-,root,root)
 %doc README.cgi-bin
-%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/webapps.d/dcc.conf
+%attr(0644,root,root) %config(noreplace) %{_webappconfdir}/dcc.conf
 %attr(0644,root,root) %config(noreplace) %{_localstatedir}/lib/dcc/userdirs/webusers
 %attr(0755,root,root) /var/www/dcc-bin/chgpasswd
 %attr(0755,root,root) /var/www/dcc-bin/common
