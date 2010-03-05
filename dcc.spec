@@ -238,6 +238,11 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %_post_webapp
 %endif
 
+%post cgi
+%if %mdkversion < 201010
+%_post_webapp
+%endif
+
 %preun
 %_preun_service dccd
 
