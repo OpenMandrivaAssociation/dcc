@@ -5,13 +5,13 @@
 
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
-Version:	1.3.122
-Release:	%mkrel 2
+Version:	1.3.135
+Release:	%mkrel 1
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
 Source0:	http://www.rhyolite.com/src/dcc/old/dcc-%{version}.tar.Z
-Patch0:		dcc-dccd-initscript-122.diff
+Patch0:		dcc-dccd-initscript-135.diff
 Patch1:		dcc-make-dcc_conf-nochwon.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
@@ -97,15 +97,11 @@ perl -pi -e "s|/usr/lib|%{_libdir}|g" configure
     --libexecdir=%{_sbindir} \
 %if %{build_sendmail}
     --with-sendmail \
-    --with-dccm \
-%else
-    --disable-dccm \
 %endif
     --with-installroot=%{buildroot} \
     --homedir=%{_localstatedir}/lib/dcc \
     --bindir=%{_bindir} \
     --mandir=%{_mandir} \
-    --with-DCC-MD5 \
     --disable-sys-inst \
     --with-uid=dcc \
     --with-cgibin=/var/www/dcc-bin \
@@ -205,7 +201,7 @@ install -m0644 dccd/*.h %{buildroot}%{_includedir}/dcc/
 install -m0644 include/*.h %{buildroot}%{_includedir}/dcc/
 install -m0644 srvrlib/*.h %{buildroot}%{_includedir}/dcc/
 install -m0644 thrlib/*.h %{buildroot}%{_includedir}/dcc/
-install -m0644 clntlib/*.h %{buildroot}%{_includedir}/dcc/
+#install -m0644 clntlib/*.h %{buildroot}%{_includedir}/dcc/
 
 install -m0755 dcclib/libdcc.a %{buildroot}%{_libdir}/
 install -m0755 srvrlib/libsrvr.a %{buildroot}%{_libdir}/
@@ -293,6 +289,8 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) %{_sbindir}/fetchblack
 %attr(0755,root,root) %{_sbindir}/list-clients
 %attr(0755,root,root) %{_sbindir}/dns-helper
+%attr(0755,root,root) %{_sbindir}/ck2ip
+%attr(0755,root,root) %{_sbindir}/dcc-stats-update
 
 %attr(0755,root,root) %{_sbindir}/check_ip_range
 %attr(0755,root,root) %{_sbindir}/dcc-nagios
@@ -336,7 +334,6 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %exclude %{_sbindir}/hackmc
 %exclude %{_sbindir}/start-dccm
 %exclude %{_mandir}/man8/dccm.8*
-
 %if %{build_sendmail}
 %files sendmail
 %defattr(-,root,root)
@@ -368,6 +365,8 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) /var/www/dcc-bin/footer
 %attr(0755,root,root) /var/www/dcc-bin/header
 %attr(0755,root,root) /var/www/dcc-bin/common.pm
+%attr(0755,root,root) /var/www/dcc-bin/footer-dist
+%attr(0755,root,root) /var/www/dcc-bin/header-dist
 
 %files devel
 %defattr(-,root,root)
