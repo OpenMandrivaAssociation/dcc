@@ -1,0 +1,44 @@
+--- misc/rcDCC.in	2011-01-12 04:27:52.000000000 +0100
++++ misc/rcDCC.in.dlucio	2011-01-21 22:33:46.000000000 +0100
+@@ -74,6 +74,7 @@
+ #	Rhyolite Software DCC 1.3.135-1.38 $Revision$
+ #	@configure_input@
+ 
++. /etc/rc.d/init.d/functions
+ 
+ DCC_HOMEDIR=@prefix@
+ DCC_LIBEXEC=@libexecdir@	    # in case dcc_conf has disappeared
+@@ -134,16 +135,16 @@
+ case "$1" in
+ start|restart|reload)
+ 	if test -z "$DAEMON" -o "$DAEMON" = dccd; then
+-	    $DCC_LIBEXEC/start-dccd $DEBUG
++	    @libexecdir@/start-dccd $DEBUG
+ 	fi
+ 	if test -z "$DAEMON" -o "$DAEMON" = grey; then
+-	    $DCC_LIBEXEC/start-grey $DEBUG
++	    @libexecdir@/start-grey $DEBUG
+ 	fi
+ 	if test -z "$DAEMON" -o "$DAEMON" = dccm; then
+-	    $DCC_LIBEXEC/start-dccm $DEBUG
++	    @libexecdir@/start-dccm $DEBUG
+ 	fi
+ 	if test -z "$DAEMON" -o "$DAEMON" = dccifd; then
+-	    $DCC_LIBEXEC/start-dccifd $DEBUG
++	    @libexecdir@/start-dccifd $DEBUG
+ 	fi
+ 	if test -n "$MODULE" -a -d /var/lock/subsys; then
+ 	    touch /var/lock/subsys/$MODULE
+@@ -169,10 +170,10 @@
+ 	# Tell dccd about operating system shutdown, including deleting
+ 	# dcc_db.hash, which will be rebuilt by dbclean when dccd is restarted.
+ 	if test -z "$DAEMON" -o "$DAEMON" = dccd; then
+-	    $DCC_LIBEXEC/stop-dccd -S $DEBUG
++	    @libexecdir@/stop-dccd -S $DEBUG
+ 	fi
+ 	if test -z "$DAEMON" -o "$DAEMON" = grey; then
+-	    $DCC_LIBEXEC/stop-dccd -G -S $DEBUG
++	    @libexecdir@/stop-dccd -G -S $DEBUG
+ 	fi
+ 	if test -n "$MODULE" -a -f /var/lock/subsys/$MODULE; then
+ 	    rm /var/lock/subsys/$MODULE

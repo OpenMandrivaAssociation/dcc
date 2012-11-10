@@ -1,0 +1,11 @@
+--- homedir/make-dcc_conf.in	2009-07-18 17:37:46.000000000 +0200
++++ homedir/make-dcc_conf.in.dlucio	2009-07-22 16:51:48.000000000 +0200
+@@ -85,7 +85,7 @@
+     chmod 0644 $CUR$FORCE
+     if test -n "@DCCSUID@" -a -z "$NO_SUID"; then
+ 	set +e		# do not die if the user name is not in the passwd file
+-	chown @DCCSUID@ $CUR$FORCE
++	# chown @DCCSUID@ $CUR$FORCE
+     fi
+     exit
+ fi
