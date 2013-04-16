@@ -6,7 +6,7 @@
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
 Version:	1.3.135
-Release:	2
+Release:	3
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
