@@ -6,7 +6,7 @@
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
 Version:	1.3.135
-Release:	%mkrel 1
+Release:	2
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
@@ -230,14 +230,7 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 # deactivate it for now... user should read man pages
 # instead...
 #%{_bindir}/cdcc info > %{_localstatedir}/lib/dcc/map.txt || :
-%if %mdkversion < 201010
-%_post_webapp
-%endif
 
-%post cgi
-%if %mdkversion < 201010
-%_post_webapp
-%endif
 
 %preun
 %_preun_service dccd
