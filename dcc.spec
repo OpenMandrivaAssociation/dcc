@@ -6,7 +6,7 @@
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
 Version:	1.3.135
-Release:	3
+Release:	4
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
@@ -22,7 +22,6 @@ BuildRequires:	perl wget apache-base
 %if %{build_sendmail}
 BuildRequires:	sendmail-devel
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 Distributed Checksum Clearinghouse or DCC is a cooperative,
@@ -168,10 +167,7 @@ cat > dcc.conf <<EOF
 ScriptAlias /dcc-bin/ /var/www/dcc-bin/
 
     <Directory /var/www/dcc-bin/>
-
-	Order deny,allow
-	Deny from all
-	allow from 127.0.0.1
+	Require host 127.0.0.1
 
 	SSLCipherSuite ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP
 	SSLRequireSSL
@@ -239,10 +235,8 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %_postun_userdel dcc
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc CHANGES  LICENSE README.misc README.homedir
 %doc FAQ.html INSTALL.html cdcc.html dbclean.html dblist.html
 %doc dcc.html dccd.html dccifd.html dccproc.html dccsight.html
@@ -329,7 +323,6 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %exclude %{_mandir}/man8/dccm.8*
 %if %{build_sendmail}
 %files sendmail
-%defattr(-,root,root)
 %doc dccm.html
 #%config(noreplace) %attr(0644,dcc,dcc) %{_localstatedir}/lib/dcc/dict-attack-aliases
 %attr(0755,root,root) %{_sbindir}/dccm
@@ -344,7 +337,6 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %endif
 
 %files cgi
-%defattr(-,root,root)
 %doc README.cgi-bin
 %attr(0644,root,root) %config(noreplace) %{_webappconfdir}/dcc.conf
 %attr(0644,root,root) %config(noreplace) %{_localstatedir}/lib/dcc/userdirs/webusers
@@ -362,130 +354,5 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) /var/www/dcc-bin/header-dist
 
 %files devel
-%defattr(-,root,root)
 %attr(0644,root,root) %{_includedir}/dcc/*.h
 %attr(0755,root,root) %{_libdir}/*.a
-
-
-
-
-%changelog
-* Fri Jan 21 2011 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.3.135-1mdv2011.0
-+ Revision: 632077
-- 1.3.135
-  configure options fixed
-  P0 rediffed
-
-* Sun Dec 05 2010 Oden Eriksson <oeriksson@mandriva.com> 1.3.122-2mdv2011.0
-+ Revision: 610196
-- rebuild
-
-* Tue Apr 27 2010 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.3.122-1mdv2010.1
-+ Revision: 539642
-- New 1.3.122
-  P0 rediffed
-
-* Fri Mar 05 2010 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.3.120-2mdv2010.1
-+ Revision: 514367
-- rely on filetrigger for reloading apache configuration begining with 2010.1, rpm-helper macros otherwise
-- rely on filetrigger for reloading apache configuration begining with 2010.1, rpm-helper macros otherwise
-
-* Fri Mar 05 2010 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.3.120-1mdv2010.1
-+ Revision: 514361
-- 1.3.120
-  P0 rediff
-  Now we use webappconfdir macro
-
-* Wed Jul 22 2009 Luis Daniel Lucio Quiroz <dlucio@mandriva.org> 1.3.113-1mdv2010.0
-+ Revision: 398550
-- get rid of *.TXT
-- get rid of *.TXT
-- get rid of *.TXT
-- pack new devel files
-- get rid of *.TXT
-- get rid of some scripts that does not exist in installation
-- looking for no chown, with alias
-- looking for no chown, with alias
-- looking for no chown, with alias
-- looking for no chown
-- Patch0 rediff
-- New version 1.3.113
-
-* Wed Jul 23 2008 Thierry Vignaud <tv@mandriva.org> 1.3.48-3mdv2009.0
-+ Revision: 243984
-- rebuild
-
-  + Pixel <pixel@mandriva.com>
-    - adapt to %%_localstatedir now being /var instead of /var/lib (#22312)
-
-* Wed Jan 02 2008 Olivier Blin <oblin@mandriva.com> 1.3.48-1mdv2008.1
-+ Revision: 140721
-- restore BuildRoot
-
-  + Thierry Vignaud <tv@mandriva.org>
-    - kill re-definition of %%buildroot on Pixel's request
-
-
-* Fri Feb 02 2007 Oden Eriksson <oeriksson@mandriva.com> 1.3.48-1mdv2007.0
-+ Revision: 115886
-- 1.3.48
-- rediffed P0
-
-  + Emmanuel Andry <eandry@mandriva.org>
-    - Import dcc
-
-* Wed Sep 20 2006 Emmanuel Andry <eandry@mandriva.org> 1.3.42-1mdv2007.0
-- 1.3.42
-
-* Thu Sep 07 2006 Emmanuel Andry <eandry@mandriva.org> 1.3.38-2mdv2007.0
-- rebuild
-
-* Mon Jul 10 2006 Emmanuel Andry <eandry@mandriva.org> 1.3.38-1mdv2007.0
-- 1.3.38
-
-* Thu Jun 22 2006 Oden Eriksson <oeriksson@mandriva.com> 1.3.37-1mdv2007.0
-- 1.3.37
-- fix deps
-
-* Wed May 11 2005 Oden Eriksson <oeriksson@mandriva.com> 1.3.0-2mdk
-- lib64 fixes
-
-* Mon Apr 04 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 1.3.0-1mdk
-- 1.3.0
-- use the %%mkrel macro
-
-* Sun Mar 06 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.71-1mdk
-- 1.2.71
-- use the webapps.d dir
-- misc rpmlint fixes
-
-* Sun Jan 16 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.67-1mdk
-- 1.2.67
-
-* Sat Jan 01 2005 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.66-1mdk
-- 1.2.66
-
-* Sun Oct 31 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.58-1mdk
-- 1.2.58
-
-* Wed Sep 29 2004 Tibor Pittich <Tibor.Pittich@mandrake.org> 1.2.53-2mdk
-- fixed build without sendmail support
-
-* Thu Sep 16 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.53-1mdk
-- 1.2.53
-
-* Tue Jun 01 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.49-1mdk
-- 1.2.49
-
-* Thu May 20 2004 Frederic Crozat 1.2.48-2mdk
-- Update patch0 to fix status command
-- Simplify make install, since buildroot is somehow supported in new release
-
-* Wed May 19 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.48-1mdk
-- 1.2.48
-- added fixes in %%install
-- use %%{optflags}
-
-* Sat Apr 17 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 1.2.39-1mdk
-- 1.2.39
-
