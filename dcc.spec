@@ -5,13 +5,13 @@
 
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
-Version:	1.3.135
-Release:	4
+Version:	1.3.154
+Release:	1
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
-Source0:	http://www.rhyolite.com/src/dcc/old/dcc-%{version}.tar.Z
-Patch0:		dcc-dccd-initscript-135.diff
+Source0:	http://www.rhyolite.com/src/dcc/old/dcc-1.3.154.tar.Z
+Patch0:		dcc-dccd-initscript-154.diff
 Patch1:		dcc-make-dcc_conf-nochwon.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
@@ -79,9 +79,9 @@ Development headers and libraries for %{name}
 
 %prep
 
-%setup -q -n %{name}-%{version}
-%patch0 -p0 -b .initscript
-%patch1 -p0 -b .nochown
+%setup -q
+%patch0 -p1 -b .initscript
+%patch1 -p1 -b .nochown
 
 # fix defaults
 find . -type f | xargs perl -pi -e "s|/usr/local|%{_prefix}|g"
