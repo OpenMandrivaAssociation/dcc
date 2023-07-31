@@ -1,0 +1,48 @@
+diff -up dcc-2.3.168/configure.omv~ dcc-2.3.168/configure
+--- dcc-2.3.168/configure.omv~	2023-07-31 23:42:01.432434516 +0200
++++ dcc-2.3.168/configure	2023-07-31 23:42:34.967192083 +0200
+@@ -808,7 +808,7 @@ cat > conftest.$ac_ext << EOF
+ 
+ #include "confdefs.h"
+ 
+-main(){return(0);}
++int main(){return(0);}
+ EOF
+ if { (eval echo configure: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+   ac_cv_prog_cc_works=yes
+@@ -1119,7 +1119,7 @@ else
+ else
+   cat > conftest.$ac_ext <<EOF
+ #include "confdefs.h"
+-main()
++int main()
+ 				{exit(sizeof(void*)==8 ? 0 : sizeof(void*));}
+ EOF
+ if { (eval echo configure: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+@@ -1465,7 +1465,7 @@ else
+ #include <stdlib.h>
+ #include <sys/stat.h>
+ #include <sys/types.h>
+-main()
++int main()
+ {
+   FILE *f;
+   union { int i; char c[4]; } u;
+@@ -3350,7 +3350,7 @@ else
+ #define max(a,b) ((a) > (b) ? (a) : (b))
+ #undef min
+ #define min(a,b) ((a) < (b) ? (a) : (b))
+-main()
++int main()
+ {
+   FILE *f=fopen("conftestval", "w");
+   if (!f) exit(1);
+@@ -3615,7 +3615,7 @@ else
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include "include/dcc_paths.h"
+-main()
++int main()
+ {
+     FILE *f=fopen("conftestval", "w");
+     if (!f) exit(1);

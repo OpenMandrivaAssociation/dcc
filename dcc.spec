@@ -5,13 +5,13 @@
 
 Summary:	Distributed Checksum Clearinghouse, anti-spam tool
 Name:		dcc
-Version:	1.3.154
-Release:	2
+Version:	2.3.168
+Release:	1
 License:	BSD-like
 Group:		System/Servers
 URL:		http://www.rhyolite.com/anti-spam/dcc/
-Source0:	http://www.rhyolite.com/src/dcc/old/dcc-1.3.154.tar.Z
-Patch0:		dcc-dccd-initscript-154.diff
+Source0:	http://www.rhyolite.com/src/dcc/old/dcc-%{version}.tar.Z
+Patch0:		dcc-2.3.168-compile.patch
 Patch1:		dcc-make-dcc_conf-nochwon.diff
 Requires(post): rpm-helper perl rrdtool
 Requires(preun): rpm-helper perl rrdtool
@@ -78,10 +78,7 @@ Group:		Development/C
 Development headers and libraries for %{name}
 
 %prep
-
-%setup -q
-%patch0 -p1 -b .initscript
-%patch1 -p1 -b .nochown
+%autosetup -p1
 
 # fix defaults
 find . -type f | xargs perl -pi -e "s|/usr/local|%{_prefix}|g"
@@ -293,8 +290,6 @@ install -m0644 *.8 %{buildroot}%{_mandir}/man8/
 %attr(0755,root,root) %{_sbindir}/stats-get
 
 # extras
-%attr(0755,root,root) %{_sbindir}/dccif-test
-#%attr(0755,root,root) %{_sbindir}/dccif-test.pl
 %attr(0755,root,root) %{_sbindir}/dccif.pl
 %attr(0755,root,root) %{_sbindir}/fetch-testmsg-whitelist
 
