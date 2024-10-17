@@ -9,7 +9,7 @@ Version:	2.3.168
 Release:	1
 License:	BSD-like
 Group:		System/Servers
-URL:		http://www.rhyolite.com/anti-spam/dcc/
+URL:		https://www.rhyolite.com/anti-spam/dcc/
 Source0:	http://www.rhyolite.com/src/dcc/old/dcc-%{version}.tar.Z
 Patch0:		dcc-2.3.168-compile.patch
 Patch1:		dcc-make-dcc_conf-nochwon.diff
