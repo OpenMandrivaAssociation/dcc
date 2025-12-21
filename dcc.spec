@@ -18,6 +18,11 @@ Requires(preun): rpm-helper perl rrdtool
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires:	perl rrdtool
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	perl wget apache-base
 %if %{build_sendmail}
 BuildRequires:	sendmail-devel
